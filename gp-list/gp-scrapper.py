@@ -24,10 +24,7 @@ for race in races:
     logger.info(f"Processing {race['raceName']}")
     race_objects.append(race)
 
-desired_folder = "resources"
-full_path = os.path.join(desired_folder, "races.json")
-
-with open(full_path, 'w') as f:
+with open("resources/races.json", 'w') as f:
     logger.info("Writing data to file")
     json_string = json.dumps(race_objects)
     f.write(json_string)
