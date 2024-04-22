@@ -2,6 +2,7 @@ import logging
 import datetime
 import requests
 import json
+import os
 
 logger = logging.getLogger(__name__)
 logging.basicConfig(filename="exec.log", encoding="utf-8", level=logging.DEBUG)
@@ -23,9 +24,13 @@ for race in races:
     logger.info(f"Processing {race['raceName']}")
     race_objects.append(race)
 
-with open('data.json', 'w', encoding='utf-8') as f:
+desired_folder = "resources"
+full_path = os.path.join(desired_folder, "races.json")
+
+with open(full_path, 'w') as f:
     logger.info("Writing data to file")
-    json.dump(race_objects, f, ensure_ascii=False, indent=4)
+    json_string = json.dumps(race_objects)
+    f.write(json_string)
 
 logger.info("Data written to file")
 logger.info("Process completed")
