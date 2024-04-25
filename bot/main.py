@@ -1,9 +1,8 @@
 import tweepy
 import os
-import logging
 import json
 import sys
-from datetime import datetime
+from datetime import datetime, timedelta
 from translate import Translator
 
 current_dir = os.path.dirname(os.path.abspath(__file__))
@@ -11,31 +10,31 @@ project_root = os.path.abspath(os.path.join(current_dir, ".."))
 sys.path.append(project_root)
 json_file_path = os.path.join(project_root, "gp-list", "resources", "races.json")
 
-logger = logging.getLogger(__name__)
-logging.basicConfig(filename="exec_main.log", encoding="utf-8", level=logging.DEBUG)
-current_data = datetime.now()
+current_utc_time = datetime.utcnow()
+time_difference = timedelta(hours=3)
+current_data = current_utc_time - time_difference
 translator = Translator(to_lang="pt-br")
 
 
 def read_data():
-    logger.info("Reading data from file")
+    print("Reading data from file")
     json_file = open(json_file_path)
     return json.load(json_file)
 
 
 def get_next_race():
-    logger.info("Getting next upcoming race")
+    print("Getting next upcoming race")
     races = read_data()
 
     for race in races:
         race_date = datetime.strptime(race["date"], "%Y-%m-%d").date()
         if current_data.date() <= race_date:
-            logger.info(f"{race['raceName']} is the next upcoming race.")
+            print(f"{race['raceName']} is the next upcoming race.")
             return race
 
 
 def generate_tweet_string():
-    logger.info("Generating tweet text")
+    print("Generating tweet text")
     next_race = get_next_race()
     has_sprint = False
     race_date = datetime.strptime(next_race["date"], "%Y-%m-%d").date()
@@ -56,7 +55,7 @@ def generate_tweet_string():
 
     days_until_first_event = (first_practice_date - current_data.date()).days
 
-    logger.info(
+    print(
         f"{race_name_translated} is the next GP. {days_until_first_event} days until it."
     )
 
@@ -83,10 +82,10 @@ def post_tweet():
         access_token_secret=os.getenv("ACCESS_TOKEN_SECRET"),
     )
     try:
-        logger.info(f"Tweeting: {tweet}")
+        print(f"Tweeting: {tweet}")
         client.create_tweet(text=tweet)
     except Exception as e:
-        logger.error(f"Error posting tweet: {e}")
+        print(f"Error posting tweet: {e}")
 
 
 if __name__ == "__main__":
