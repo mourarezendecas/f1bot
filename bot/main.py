@@ -27,8 +27,8 @@ def get_next_race():
     races = read_data()
 
     for race in races:
-        race_date = datetime.strptime(race["date"], "%Y-%m-%d").date()
-        if current_data.date() <= race_date:
+        race_start = datetime.strptime(race["FirstPractice"]['date'], "%Y-%m-%d").date()
+        if current_data.date() <= race_start:
             print(f"{race['raceName']} is the next upcoming race.")
             return race
 
