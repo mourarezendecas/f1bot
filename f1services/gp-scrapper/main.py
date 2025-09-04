@@ -1,7 +1,7 @@
 import requests
 import json
 from datetime import date
-from aws_services_common.s3_client import save_file
+from f1services.aws_services_common.s3_client import save_file
 
 URL_API = "http://api.jolpi.ca/ergast/f1"
 CURRENT_DATE = date.today()

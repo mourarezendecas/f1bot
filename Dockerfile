@@ -1,4 +1,4 @@
-FROM python:3.9.23-trixie
+FROM python:3.10.18
 
 WORKDIR /app
 
@@ -6,6 +6,6 @@ COPY requirements.txt ./
 
 RUN pip install -r requirements.txt
 
-COPY *.py ./
+COPY f1services ./f1services
 
-CMD ["python3", "main.py"]
+WORKDIR /app

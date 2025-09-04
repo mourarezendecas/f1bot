@@ -1,6 +1,5 @@
 import os
-from io import BytesIO
-from aws_services_common.aws_services import AWSConnection
+from f1services.aws_services_common.aws_services import AWSConnection
 
 BUCKET_NAME = os.getenv('BUCKET_NAME')
 aws_services = AWSConnection()
