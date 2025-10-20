@@ -48,10 +48,11 @@ class Race:
     round: int
     race_name: str
     date: date
+    time: str
     first_practice: FirstPractice
     qualifying: Qualifying
     circuit: Circuit
     sprint: Optional[Sprint] = None
-    sprint_qualifying: Optional[SprintQualifying] = None
+    sprint_qualify: Optional[SprintQualifying] = None
     second_practice: Optional[SecondPractice] = None
     third_practice: Optional[ThirdPractice] = None

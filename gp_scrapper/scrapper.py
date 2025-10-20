@@ -1,11 +1,13 @@
 import requests
 import json
+from translate import Translator
 from datetime import date, datetime
 from aws_services_common.s3_client import save_file, list_folders, get_json_to_dict
-from Models import *
+from .Models import *
 
 URL_API = "http://api.jolpi.ca/ergast/f1"
 CURRENT_DATE = date.today()
+translator = Translator(to_lang="pt-br")
 
 def get_races(year):
     r = requests.get(f'{URL_API}/{year}')
@@ -31,7 +33,7 @@ def get_next_race_date():
         data = datetime.strptime(pasta.strip('/').split('/')[-1], "%Y-%m-%d").date()
         datas_obtidas.append(data)
 
-    datas_futuras = [d for d in datas_obtidas if d > CURRENT_DATE]
+    datas_futuras = [d for d in datas_obtidas if d >= CURRENT_DATE]
 
     proxima_data = min(datas_futuras)
     return proxima_data
@@ -43,7 +45,8 @@ def get_next_race():
         season=dict_race['season'],
         round=dict_race['round'],
         race_name=dict_race['raceName'],
-        date=dict_race['date'],
+        date=datetime.strptime(dict_race['date'], '%Y-%m-%d').date(),
+        time=dict_race['time'],
         first_practice=FirstPractice(
             date=datetime.strptime(dict_race['FirstPractice']['date'], '%Y-%m-%d'),
             time=dict_race['FirstPractice']['time']
@@ -63,8 +66,8 @@ def get_next_race():
 
     if 'Sprint' in dict_race:
         sprint_qualify = SprintQualifying(
-            date=datetime.strptime(dict_race['Sprint']['date'], '%Y-%m-%d'),
-            time=dict_race['Sprint']['time']
+            date=datetime.strptime(dict_race['SprintQualifying']['date'], '%Y-%m-%d'),
+            time=dict_race['SprintQualifying']['time']
         )
         sprint = Sprint(
             date=datetime.strptime(dict_race['Sprint']['date'], '%Y-%m-%d'),
@@ -85,5 +88,3 @@ def get_next_race():
         race_obj.third_practice = third_practice
 
     return race_obj
-
-get_next_race()

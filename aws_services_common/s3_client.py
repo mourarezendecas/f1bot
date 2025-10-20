@@ -43,7 +43,6 @@ def get_json_to_dict(s3_key):
         raise FileNotFoundError(f"Nenhum arquivo JSON encontrado em s3://{BUCKET_NAME}/{s3_key}")
 
     json_key = json_files[0]
-    print(f"Lendo arquivo: s3://{BUCKET_NAME}/{json_key}")
 
     obj = s3_client.get_object(Bucket=BUCKET_NAME, Key=json_key)
     json_data = json.loads(obj['Body'].read().decode('utf-8'))
