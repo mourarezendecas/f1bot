@@ -30,10 +30,10 @@ def generate_tweet(race: Race) -> str:
         tweet += f'- FP1: {race.first_practice.date.strftime("%d/%m/%Y")} às {fp_time}\n'
 
         if race.sprint is not None:
-            quali_sprint_time = converter_para_horario_brasil(f'{race.sprint_qualify.date.strftime('%Y-%m-%d')}T{race.sprint_qualify.time}')
+            quali_sprint_time = converter_para_horario_brasil(f'{race.sprint_qualify.date.strftime("%Y-%m-%d")}T{race.sprint_qualify.time}')
             tweet += f'- Quali Sprint: {race.sprint_qualify.date.strftime("%d/%m/%Y")} às {quali_sprint_time}\n'
 
-            sprint_time = converter_para_horario_brasil(f'{race.sprint_qualify.date.strftime('%Y-%m-%d')}T{race.sprint.time}')
+            sprint_time = converter_para_horario_brasil(f'{race.sprint_qualify.date.strftime("%Y-%m-%d")}T{race.sprint.time}')
             tweet += f'- Sprint: {race.sprint.date.strftime("%d/%m/%Y")} às {sprint_time}\n'
 
         else:
@@ -46,7 +46,7 @@ def generate_tweet(race: Race) -> str:
         race_quali_time = converter_para_horario_brasil(f'{race.qualifying.date.strftime("%Y-%m-%d")}T{race.qualifying.time}')
         tweet += f'- Quali: {race.qualifying.date.strftime("%d/%m/%Y")} às {race_quali_time}\n'
 
-        race_time = converter_para_horario_brasil(f'{race.date.strftime('%Y-%m-%d')}T{race.time}')
+        race_time = converter_para_horario_brasil(f'{race.date.strftime("%Y-%m-%d")}T{race.time}')
         tweet += f'- Corrida: {race.date.strftime("%d/%m/%Y")} às {race_time}'
     else:
         if days_until_fp > 1:
@@ -75,3 +75,4 @@ if __name__ == '__main__':
     next_race = get_next_race()
     tweet = generate_tweet(next_race)
     post = post_tweet(tweet)
+    print(post.data)
