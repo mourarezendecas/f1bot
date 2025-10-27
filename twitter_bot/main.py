@@ -75,4 +75,3 @@ if __name__ == '__main__':
     next_race = get_next_race()
     tweet = generate_tweet(next_race)
     post = post_tweet(tweet)
-    print(post.data)
