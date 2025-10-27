@@ -7,6 +7,26 @@ ENV DEBIAN_FRONTEND=noninteractive
 # Diretório de trabalho dentro do container
 WORKDIR /app
 
+# Declara os argumentos que virão do build
+ARG ACCESS_TOKEN
+ARG ACCESS_TOKEN_SECRET
+ARG CONSUMER_KEY
+ARG CONSUMER_SECRET
+ARG AWS_ACCESS_KEY_ID
+ARG AWS_SECRET_ACCESS_KEY
+ARG AWS_REGION
+ARG BUCKET_NAME
+
+# Define as variáveis de ambiente no contêiner
+ENV ACCESS_TOKEN=$ACCESS_TOKEN \
+    ACCESS_TOKEN_SECRET=$ACCESS_TOKEN_SECRET \
+    CONSUMER_KEY=$CONSUMER_KEY \
+    CONSUMER_SECRET=$CONSUMER_SECRET \
+    AWS_ACCESS_KEY_ID=$AWS_ACCESS_KEY_ID \
+    AWS_SECRET_ACCESS_KEY=$AWS_SECRET_ACCESS_KEY \
+    AWS_REGION=$AWS_REGION \
+    BUCKET_NAME=$BUCKET_NAME
+
 # Copia apenas requirements primeiro para usar cache
 COPY requirements.txt .
 
